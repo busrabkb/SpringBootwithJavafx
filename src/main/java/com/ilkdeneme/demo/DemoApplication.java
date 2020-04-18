@@ -12,6 +12,7 @@ import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
@@ -21,10 +22,10 @@ import java.net.URL;
 @SpringBootApplication
 public class DemoApplication extends Application  {
 
-    private ConfigurableApplicationContext springContext;
+    private ApplicationContext springContext;
 
     StageController stageController;
-    Stage s;
+
 	public static void main(String[] args) {
      launch(args);
     }
@@ -33,21 +34,22 @@ public class DemoApplication extends Application  {
     public void init() throws Exception {
         super.init();
         springContext = SpringApplication.run(DemoApplication.class);
-
+  stageController= (StageController) springContext.getBean(StageController.class);
 	}
 
     @Override
     public void start(Stage stage) throws Exception {
-      FXMLLoader loader = new FXMLLoader();
+     FXMLLoader loader = new FXMLLoader();
         URL xmlUrl = getClass().getResource("defx.fxml");
         loader.setControllerFactory(springContext::getBean);
         loader.setLocation( getClass().getClassLoader().getResource("defx.fxml"));
 
         Parent root = loader.load();
-s=new Stage() ;       s .setScene(new Scene(root));
+      stage.setScene(new Scene(root));
+        stageController.setMainStage(stage);
 
 
-        s .show();
+        stage .show();
         }
 
 }

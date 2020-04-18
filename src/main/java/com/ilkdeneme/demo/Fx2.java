@@ -1,3 +1,5 @@
+package com.ilkdeneme.demo;
+
 import com.ilkdeneme.demo.DemoApplication;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
